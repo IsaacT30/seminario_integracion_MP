@@ -23,7 +23,7 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mnf^@85z%+p#w+6cxf8w+w550^vwbn$z6n^sva-6f1y0ii&1k^'
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-default-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'medical_system.wsgi.application'
 DATABASES={
   'default':{
     'ENGINE':'django.db.backends.postgresql',
-    'NAME':os.getenv('DB_NAME','Programacion_IV'),
-    'USER':os.getenv('DB_USER','postgres'),
-    'PASSWORD':os.getenv('DB_PASS','Isaac2006'),
+    'NAME':os.getenv('DB_NAME','clinic_db'),
+    'USER':os.getenv('DB_USER','clinic_user'),
+    'PASSWORD':os.getenv('DB_PASS','clinic_pass_123'),
     'HOST':os.getenv('DB_HOST','localhost'),
     'PORT':os.getenv('DB_PORT','5432')
     }
