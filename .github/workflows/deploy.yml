@@ -68,8 +68,8 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USERNAME }}
-          PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
-          VENV_PATH: ${{ secrets.VENV_PATH }}
+          PROJECT_PATH: /home/estudiante/clinic_api/seminario_integracion_MP
+          VENV_PATH: /home/estudiante/clinic_api/venv
         run: |
           ssh $VPS_USER@$VPS_HOST "
             set -e
@@ -84,7 +84,9 @@ jobs:
 
             echo '3. Cargando variables del .env...'
             if [ -f $PROJECT_PATH/.env ]; then
-              export $(grep -v '^#' $PROJECT_PATH/.env | xargs)
+              set -o allexport
+              source $PROJECT_PATH/.env
+              set +o allexport
             else
               echo '.env no encontrado, revisa la ruta o súbelo al VPS'
               exit 1
