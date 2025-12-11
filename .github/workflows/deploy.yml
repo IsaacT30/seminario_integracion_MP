@@ -77,16 +77,19 @@ jobs:
           echo '2. Activando entorno virtual...'
           source $VENV_PATH/bin/activate
 
-          echo '3. Instalando dependencias...'
+          echo '3. Cargando variables del .env...'
+          export $(grep -v '^#' $PROJECT_PATH/.env | xargs)
+
+          echo '4. Instalando dependencias...'
           pip install -r requirements.txt
 
-          echo '4. Aplicando migraciones...'
+          echo '5. Aplicando migraciones...'
           python manage.py migrate --noinput
 
-          echo '5. Colectando archivos estáticos...'
+          echo '6. Colectando archivos estáticos...'
           python manage.py collectstatic --noinput --clear
 
-          echo '6. Reiniciando servicios...'
+          echo '7. Reiniciando servicios...'
           systemctl restart gunicorn || true
           systemctl restart nginx || true
 
