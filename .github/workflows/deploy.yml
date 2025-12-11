@@ -62,7 +62,6 @@ jobs:
       env:
         VPS_HOST: ${{ secrets.VPS_HOST }}
         VPS_USER: ${{ secrets.VPS_USERNAME }}
-        DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
         VENV_PATH: ${{ secrets.VENV_PATH }}
       run: |
@@ -78,7 +77,14 @@ jobs:
           source $VENV_PATH/bin/activate
 
           echo '3. Cargando variables del .env...'
-          export $(grep -v '^#' $PROJECT_PATH/.env | xargs)
+          if [ -f $PROJECT_PATH/.env ]; then
+            set -o allexport
+            source $PROJECT_PATH/.env
+            set +o allexport
+          else
+            echo '⚠ .env no encontrado en el VPS'
+            exit 1
+          fi
 
           echo '4. Instalando dependencias...'
           pip install -r requirements.txt
