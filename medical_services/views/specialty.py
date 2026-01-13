@@ -4,6 +4,11 @@ from medical_services.serializers import SpecialtySerializer
 from medical_services.permissions import IsAdminOrReadOnly
 
 class SpecialtyViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestionar especialidades médicas.
+    - Lectura: Todos los usuarios autenticados
+    - Escritura: Solo ADMIN
+    """
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
     permission_classes = (IsAdminOrReadOnly,)

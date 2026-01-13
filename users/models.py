@@ -2,16 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class DoctorProfile(models.Model):
-    """Perfil extendido para médicos"""
+    """Perfil extendido para usuarios del sistema"""
     DOCTOR = 'DOCTOR'
     NURSE = 'NURSE'
     ADMIN = 'ADMIN'
     RECEPTIONIST = 'RECEPTIONIST'
+    PATIENT = 'PATIENT'
     ROLE_CHOICES = [
         (DOCTOR, 'Médico'),
         (NURSE, 'Enfermero/a'),
         (ADMIN, 'Administrativo'),
         (RECEPTIONIST, 'Recepcionista'),
+        (PATIENT, 'Paciente'),
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='doctor_profile')

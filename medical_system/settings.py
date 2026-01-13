@@ -18,12 +18,12 @@ from dotenv import load_dotenv # type: ignore
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(BASE_DIR / '.env')
+# load_dotenv(BASE_DIR / '.env', encoding='utf-8')  # DESACTIVADO TEMPORALMENTE
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-default-key")
+SECRET_KEY = "django-insecure-mnf8a85zp3w6cxf8ww550vwbnz6nsva6f1y0ii1k"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,12 +86,15 @@ WSGI_APPLICATION = 'medical_system.wsgi.application'
 DATABASES={
   'default':{
     'ENGINE':'django.db.backends.postgresql',
-    'NAME':os.getenv('DB_NAME','clinic_db'),
-    'USER':os.getenv('DB_USER','clinic_user'),
-    'PASSWORD':os.getenv('DB_PASS','clinic_pass_123'),
-    'HOST':os.getenv('DB_HOST','localhost'),
-    'PORT':os.getenv('DB_PORT','5432')
+    'NAME':'clinic_db',
+    'USER':'clinic_user',
+    'PASSWORD':'clinic_pass_123',
+    'HOST':'127.0.0.1',
+    'PORT':'5432',
+    'OPTIONS': {
+        'client_encoding': 'UTF8',
     }
+  }
 }
 
 

@@ -6,16 +6,32 @@ from users.models import DoctorProfile
 from users.serializers.profile import DoctorProfileSerializer
 
 class DoctorProfileViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestionar perfiles de usuario.
+    - Usuarios normales: Solo pueden ver/editar su propio perfil
+    - ADMIN: Pueden ver y editar todos los perfiles
+    """
     queryset = DoctorProfile.objects.select_related('user').all()
     serializer_class = DoctorProfileSerializer
     permission_classes = (permissions.IsAuthenticated,)
     
     def get_queryset(self):
+        """
+        Filtrar perfiles según el rol del usuario
+        """
         qs = super().get_queryset()
-        if not self.request.user.is_staff:
-            # Los usuarios no staff solo pueden ver su propio perfil
-            qs = qs.filter(user=self.request.user)
-        return qs
+        user = self.request.user
+        
+        # Admin puede ver todos los perfiles
+        if user.is_staff:
+            return qs
+        
+        # Verificar si tiene perfil y es ADMIN
+        if hasattr(user, 'doctor_profile') and user.doctor_profile.role == 'ADMIN':
+            return qs
+        
+        # Otros usuarios solo ven su propio perfil
+        return qs.filter(user=user)
     
     @action(detail=False, methods=['get'])
     def me(self, request):

@@ -5,6 +5,11 @@ from medical_services.permissions import IsAdminOrReadOnly
 from medical_services.pagination import StandardResultsSetPagination
 
 class MedicalProcedureViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestionar procedimientos médicos.
+    - Lectura: Todos los usuarios autenticados
+    - Escritura: Solo ADMIN
+    """
     queryset = MedicalProcedure.objects.select_related("specialty").all()
     serializer_class = MedicalProcedureSerializer
     permission_classes = (IsAdminOrReadOnly,)
